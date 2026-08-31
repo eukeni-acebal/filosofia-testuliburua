@@ -341,31 +341,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<!-- ANDAMIO · PENDIENTE DE REVISIÓN DE EUKENI (2026-08-25).
-
-     Este texto está CALCADO del de historia-filosofia-es/web-eu/index.qmd,
-     que sí está aprobado, con lo mínimo cambiado: el título del volumen, el
-     nivel y el recuento.
-
-     El vocabulario sale del corpus congelado, no de mi cosecha:
-     **`unitate`** e **`irakurgai`** están fijados en
-     `_prompts-traduccion-eu_filosofia-1.md` (mapa de nombres
-     `parte-N.md → unitatea-N.md`, `lectura-N.md → irakurgaia-N.md` y el
-     `rotulo: "unitatea"` de los siete #part()), y **`testuliburu`** en
-     `referencia §10`.
-
-     Queda fuera a propósito lo que no toca todavía: el enlace a la versión en
-     castellano —su recíproco está comentado mientras este sitio no se
-     publique— y el enlace al PDF, porque no hay release.
-
-     El sitio se construye y se revisa en local; no se publica. Cuando la
-     traducción avance, esto se reescribe desde el castellano, como manda D6,
-     y este comentario se retira. -->
 <p>Ongi etorri <strong>Filosofia</strong> testuliburuaren web-ediziora, <em>Areté</em> bildumako 1. Batxilergokoa.</p>
 <p>Liburuak filosofiaren arazo nagusiak jorratzen ditu, <strong>zazpi unitatetan</strong> eta <strong>hogeita hemezortzi gaitan</strong> antolatuta, eta unitate bakoitza <strong>irakurgai</strong> batekin ixten da. Ezkerreko menuan eduki guztia aurkituko duzu.</p>
 <blockquote class="blockquote">
 <p>Liburu hau <strong>Creative Commons BY-SA 4.0</strong> lizentziapean argitaratzen da. Liburu bizia da: ikasturtez ikasturte zuzentzen eta hobetzen da, eta gaztelaniaz eta euskaraz dago eskuragarri.</p>
 </blockquote>
+<p><a href="https://github.com/eukeni-acebal/filosofia-testuliburua/releases/latest/download/filosofia-testuliburua.pdf">⬇ Liburu osoa PDFn deskargatu</a></p>
+<p><a href="https://eukeni-acebal.github.io/filosofia-manual/">→ Ver la versión en castellano / Ikusi gaztelaniazko bertsioa</a></p>
 
 
 
@@ -456,7 +438,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/eukeni-acebal\.github\.io\/filosofia-testuliburua\/");
+        var filterRegex = new RegExp("https:\/\/arete\.eukeniacebal\.net\/filosofia-testuliburua\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

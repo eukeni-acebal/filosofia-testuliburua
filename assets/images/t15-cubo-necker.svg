@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 230" width="260" height="230" role="img" aria-label="Cubo de Necker: dos cuadrados desplazados unidos por sus vértices, con las doce aristas visibles">
+  <g fill="none" stroke="#111111" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- cuadrado inferior izquierdo -->
+    <path d="M 30 80 H 150 V 200 H 30 Z"/>
+    <!-- cuadrado superior derecho -->
+    <path d="M 100 30 H 220 V 150 H 100 Z"/>
+    <!-- aristas que unen los vértices correspondientes -->
+    <path d="M 30 80 L 100 30"/>
+    <path d="M 150 80 L 220 30"/>
+    <path d="M 150 200 L 220 150"/>
+    <path d="M 30 200 L 100 150"/>
+  </g>
+</svg>

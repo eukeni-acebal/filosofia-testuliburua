@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 262" width="300" height="262" role="img" aria-label="La cámara de eco: dentro de un recinto cerrado, seis nodos iguales se remiten el mensaje unos a otros en círculo; desde fuera, cuatro mensajes distintos llegan al borde y no entran">
+  <g fill="none" stroke="#111111" stroke-linecap="round" stroke-linejoin="round">
+
+    <marker id="p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111111" stroke="none"/>
+    </marker>
+
+    <!-- el recinto -->
+    <circle cx="150" cy="131" r="79" stroke-width="2" stroke-dasharray="7 5"/>
+
+    <!-- los cinco nodos de dentro, todos iguales: la misma idea repetida -->
+    <g fill="#111111" stroke="none">
+      <circle cx="150" cy="83"  r="9"/>
+      <circle cx="196" cy="116" r="9"/>
+      <circle cx="178" cy="170" r="9"/>
+      <circle cx="122" cy="170" r="9"/>
+      <circle cx="104" cy="116" r="9"/>
+    </g>
+
+    <!-- el mensaje da vueltas entre ellos y siempre vuelve -->
+    <g stroke-width="2.2" marker-end="url(#p)">
+      <path d="M 161 89  Q 185 96  191 106"/>
+      <path d="M 194 127 Q 191 152 186 161"/>
+      <path d="M 168 174 Q 150 180 132 174"/>
+      <path d="M 114 161 Q 106 149 106 127"/>
+      <path d="M 109 106 Q 116 95  139 89"/>
+    </g>
+
+    <!-- tú, dentro -->
+    <circle cx="150" cy="131" r="17" stroke-width="2.2" fill="#ffffff"/>
+    <text x="150" y="137" font-family="Libertinus Serif, Linux Libertine, Georgia, serif" font-size="15" text-anchor="middle" fill="#111111" stroke="none">TÚ</text>
+
+    <!-- las cuatro voces de fuera: distintas, y ninguna entra -->
+    <g stroke-width="2" fill="#ffffff">
+      <circle cx="30"  cy="36"  r="11"/>
+      <circle cx="270" cy="36"  r="11"/>
+      <circle cx="30"  cy="226" r="11"/>
+      <circle cx="270" cy="226" r="11"/>
+    </g>
+
+    <g stroke-width="2.2" marker-end="url(#p)">
+      <path d="M 40 45  L 84 78"/>
+      <path d="M 260 45 L 216 78"/>
+      <path d="M 40 217 L 84 184"/>
+      <path d="M 260 217 L 216 184"/>
+    </g>
+
+    <!-- rebotan en el borde -->
+    <g stroke-width="3">
+      <path d="M 82 90  L 98 71"/>
+      <path d="M 218 90 L 202 71"/>
+      <path d="M 82 172 L 98 191"/>
+      <path d="M 218 172 L 202 191"/>
+    </g>
+
+  </g>
+</svg>

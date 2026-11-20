@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="eu" xml:lang="eu"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,18 +40,19 @@ ul.task-list li input[type="checkbox"] {
 <link href="../unitatea-5.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fc20a56aadcab808120179de1ae02e97.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-ee624aba7dd1a522a65201b5a843d75b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-fc20a56aadcab808120179de1ae02e97.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b29469c5149ea663b658181c1cab893f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-1eae7551a8b327b748a04a3a7b98b1fb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b29469c5149ea663b658181c1cab893f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -114,7 +115,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../quarto-theme/print.css">
 </head>
 
-<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -137,6 +138,7 @@ window.Quarto = {
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
         if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
           if (alternate) {
             toggle.classList.add("alternate");
           } else {
@@ -166,13 +168,19 @@ window.Quarto = {
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
       setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
         manageTransitions("body", false);
-        window.scrollTo(0, 1);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
         setTimeout(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, scrollY);
           manageTransitions("body", true);
         }, 40);
       }
@@ -266,6 +274,7 @@ window.Quarto = {
       // Read the current dark / light value
       let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
@@ -280,13 +289,13 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Lanabes-barra">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Aldatu alboko barraren nabigazioa" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../unitatea-5.html">V. unitatea · Etika</a></li><li class="breadcrumb-item"><a href="../chapters-web/gaia-23.html"><span class="chapter-title">23. gaia · Etika eta morala: kontzeptuak eta metaetika</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Aldatu alboko barraren nabigazioa" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Bidea"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../unitatea-5.html">V. unitatea · Etika</a></li><li class="breadcrumb-item"><a href="../chapters-web/gaia-23.html"><span class="chapter-title">23. gaia · Etika eta morala: kontzeptuak eta metaetika</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Bilatu" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -297,17 +306,14 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Webgune"><div class="quarto-sidebar-header"><div class="sidebar-header-item">
+<p><a href="https://arete.eukeniacebal.net/">Areté</a></p>
+</div></div>
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Filosofia</a> 
-        <div class="sidebar-tools-main tools-wide">
-    <a href="https://arete.eukeniacebal.net/" title="Areté bilduma" class="quarto-navigation-tool px-1" aria-label="Areté bilduma"><i class="bi bi-house-door"></i></a>
-    <a href="https://arete.eukeniacebal.net/filosofia-manual/" title="Gaztelaniazko bertsioa" class="quarto-navigation-tool px-1" aria-label="Gaztelaniazko bertsioa"><i class="bi bi-translate"></i></a>
-    <a href="https://github.com/eukeni-acebal/filosofia-testuliburua/releases/latest/download/filosofia-testuliburua.pdf" title="PDFa deskargatu" class="quarto-navigation-tool px-1" aria-label="PDFa deskargatu"><i class="bi bi-file-earmark-pdf"></i></a>
-    <a href="mailto:arete.eukeni@gmail.com?subject=Akatsa%20edo%20iradokizuna%20%C2%B7%20Filosofia%201" title="Idatzidazu" class="quarto-navigation-tool px-1" aria-label="Idatzidazu"><i class="bi bi-envelope"></i></a>
-    <a href="https://github.com/eukeni-acebal/filosofia-testuliburua" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Aldatu modu iluna"><i class="bi"></i></a>
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Aldatu modu iluna" aria-label="Aldatu modu iluna"><i class="bi"></i></button>
 </div>
     </div>
       </div>
@@ -331,12 +337,12 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">I. unitatea · Filosofia berari buruzko gogoeta filosofikoa</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-1-label">I. unitatea · Filosofia berari buruzko gogoeta filosofikoa</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Aldatu atala: I. unitatea · Filosofia berari buruzko gogoeta filosofikoa">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. gaia · Zer da Filosofia?</span></a>
@@ -377,12 +383,12 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">II. unitatea · Antropologia</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-2-label">II. unitatea · Antropologia</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Aldatu atala: II. unitatea · Antropologia">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-07.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. gaia · Giza izaera: eboluzioa eta hominizazioa</span></a>
@@ -418,12 +424,12 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">III. unitatea · Epistemologia</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-3-label">III. unitatea · Epistemologia</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Aldatu atala: III. unitatea · Epistemologia">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-12.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">12. gaia · Ezagutza eta egia</span></a>
@@ -464,12 +470,12 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">IV. unitatea · Metafisika</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-4-label">IV. unitatea · Metafisika</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Aldatu atala: IV. unitatea · Metafisika">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-18.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">18. gaia · Erreala denaren izaera</span></a>
@@ -505,12 +511,12 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">V. unitatea · Etika</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-5-label">V. unitatea · Etika</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Aldatu atala: V. unitatea · Etika">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-23.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">23. gaia · Etika eta morala: kontzeptuak eta metaetika</span></a>
@@ -556,12 +562,12 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">VI. unitatea · Filosofia politikoa</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-6-label">VI. unitatea · Filosofia politikoa</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true" aria-label="Aldatu atala: VI. unitatea · Filosofia politikoa">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-30.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">30. gaia · Giza eskubideak</span></a>
@@ -607,12 +613,12 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">VII. unitatea · Estetika</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-7-label">VII. unitatea · Estetika</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true" aria-label="Aldatu atala: VII. unitatea · Estetika">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-37.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">37. gaia · Artea, edertasuna eta gustua</span></a>
@@ -642,11 +648,17 @@ window.Quarto = {
 </li>
     </ul>
     </div>
-</nav>
+<div class="quarto-sidebar-footer"><div class="sidebar-footer-item">
+<ul>
+<li><a href="https://arete.eukeniacebal.net/filosofia-manual/" lang="es" hreflang="es">En castellano</a></li>
+<li><a href="https://github.com/eukeni-acebal/filosofia-testuliburua/releases/latest/download/filosofia-testuliburua.pdf">PDFa deskargatu</a></li>
+<li><a href="mailto:arete.eukeni@gmail.com?subject=Akatsa%20edo%20iradokizuna%20%C2%B7%20Filosofia%201">Idatzidazu</a></li>
+</ul>
+</div></div></nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Orrialde honetan</h2>
    
   <ul class="collapse">
@@ -657,10 +669,10 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../unitatea-5.html">V. unitatea · Etika</a></li><li class="breadcrumb-item"><a href="../chapters-web/gaia-23.html"><span class="chapter-title">23. gaia · Etika eta morala: kontzeptuak eta metaetika</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Bidea"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../unitatea-5.html">V. unitatea · Etika</a></li><li class="breadcrumb-item"><a href="../chapters-web/gaia-23.html"><span class="chapter-title">23. gaia · Etika eta morala: kontzeptuak eta metaetika</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-title">23. gaia · Etika eta morala: kontzeptuak eta metaetika</span></h1>
 </div>
@@ -692,7 +704,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="sec-88">§88 · Morala eta etika</h2>
 <p><strong>Zer den moral bat.</strong> <strong>Moral</strong> bat arau, erregela eta balioen multzo edo kode bat da, gizabanako, talde edo gizarte batentzat zer dagoen ondo eta zer gaizki arautzen duena<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Horregatik hitz egin ohi dugu moral kristauaz, zaldunen moral-kodeaz, moral juduaz, moral islamikoaz, antzinako greziarren moral-kodeaz, Anaren moralaz. Moral indibidualez hitz egin badaiteke ere, gehienetan moralaz <em>kultura-fenomeno</em> gisa arituko gara, eta, beraz, gizarte edo erlijio bati lotuta.</p>
 <p>Asko sinplifikatuz, baina den horretatik gehiegi urrundu gabe, morala <em>ontzat edo txartzat jotako ekintzen zerrenda bat da, ekintzok egiteko aginduari edo debekuari lotua</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Hala, «hiltzea txarra da / ez duzu hil behar», «zergak ordaintzea ona da / zergak ordaindu behar dituzu» edo «gurasoei gezurra esatea txarra da / ez diezu gurasoei gezurrik esan behar». Zerrendako agindu guztiak eta debeku guztiak batzen baditugu, <em>kode</em> edo <em>arau-multzo</em> bat izango dugu. Kode edo arau-multzo horri deitzen diogu morala.</p>
-<p><strong>Zer den etika.</strong> <strong>Etika</strong> moralez arduratzen den filosofiaren adarra da: moralak ordenatzen ditu, aztertzen ditu, eta arrazoiekin eztabaidatzen du zein arauk eusten dion eta zeinek ez<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Horregatik entzungo duzu etika medikoaz, teoria etikoaz, zoriontasunaren etikaz edo enpresaren etikaz hitz egiten. Diziplina filosofiko gisa, etika pertsonen ekintzei buruzko eta arau eta balio moralei buruzko <em>gogoetari</em> lotuta dago. Hau da, etikak arau moralak analizatzen, aztertzen eta epaitzen ditu. Moralik gabe ez legoke etikarik, objekturik gabe geldituko litzatekeelako. Horregatik ikusiko duzu etikari <em>filosofia morala</em> ere deitzen zaiola, filosofiaren adarrak aurkeztean esan zen bezala (<a href="chapters-web/gaia-03.html#sec-09">§09</a>): oraintxe egin dugun bereizketaren ondoan izenak arraro samarra dirudi, baina zuzena da, hor adjektiboak zeri buruz diharduen esaten baitu, ez zerez egina dagoen. Moralari <em>buruzko</em> filosofia da, zientziaren filosofia zientzia ez den bezala.</p>
+<p><strong>Zer den etika.</strong> <strong>Etika</strong> moralez arduratzen den filosofiaren adarra da: moralak ordenatzen ditu, aztertzen ditu, eta arrazoiekin eztabaidatzen du zein arauk eusten dion eta zeinek ez<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Horregatik entzungo duzu etika medikoaz, teoria etikoaz, zoriontasunaren etikaz edo enpresaren etikaz hitz egiten. Diziplina filosofiko gisa, etika pertsonen ekintzei buruzko eta arau eta balio moralei buruzko <em>gogoetari</em> lotuta dago. Hau da, etikak arau moralak analizatzen, aztertzen eta epaitzen ditu. Moralik gabe ez legoke etikarik, objekturik gabe geldituko litzatekeelako. Horregatik ikusiko duzu etikari <em>filosofia morala</em> ere deitzen zaiola, filosofiaren adarrak aurkeztean esan zen bezala (<a href="../chapters-web/gaia-03.html#sec-09">§09</a>): oraintxe egin dugun bereizketaren ondoan izenak arraro samarra dirudi, baina zuzena da, hor adjektiboak zeri buruz diharduen esaten baitu, ez zerez egina dagoen. Moralari <em>buruzko</em> filosofia da, zientziaren filosofia zientzia ez den bezala.</p>
 <p><strong>Zertan bereizten diren: oinarritzea.</strong> Etika eta morala gai komun batez mintzo dira —giza ekintzez eta balioez, onak ala txarrak, agindutakoak ala debekatuak diren aldetik—, eta bien arteko funtsezko aldea horretaz zer dioten eta nola dioten da.</p>
 <p>Moralak <em>zehazki</em> esaten digu pertsona, talde edo gizarte batek zer jotzen duen ontzat eta zer txartzat. Etika azaltzen saiatzen da moral horrek zer irizpide erabiltzen dituen bereizketa horiek egiteko, zertan datzan ontasuna edo zergatik praktikatu behar den. Moralak zuzenean hitz egiten digu zer egin eta zer ez, eta etikak justifikazioei buruz egiten du gogoeta.</p>
 <p>Moralaren <strong>oinarritzea</strong> erlijiosoa izan daiteke —hau ona da Jainkoak edo jainkotasunak agintzen duelako—, tradizionala —beti egin izan dugu hau horrela—, naturalista —natura imitatu behar dugu, hura baita gauzen orden zuzena—, edo beste era batekoa. Etika, ordea, arrazoian eta arrazoietan baino ezin da oinarritu. Zure jainkoak, zure gurasoek, zure irakasleak edo zure kulturak esaten dizunean lapurtzea gaizki dagoela, beti galde dezakezu zergatik dagoen gaizki. Une horretan galdera etiko bat egiten ari zara, hau da, arau moralari <em>buruzkoa</em>. Galdetzen diozun pertsonak oraintxe aipatu ditudan justifikazioetako batekin erantzuten badizu, diskurtso moral batean murgilduta jarraituko du. Baina arrazoiaren bidez eta arrazoien bidez argudiatzen saiatzen bada, orduan etika egiten ariko da.</p>
@@ -700,9 +712,9 @@ window.Quarto = {
 </section>
 <section id="sec-89" class="level2">
 <h2 class="anchored" data-anchor-id="sec-89">§89 · Askatasuna, moralaren baldintza</h2>
-<p><strong>Askatasunik gabe ez dago zer epaiturik.</strong> Teoria etikoetan sartu aurretik, komeni da gelditzea norbait epaitzen dugun bakoitzean berez ontzat ematen dugun zerbaitetan. Zure lagunak zurekin gaizki jokatu zuela diozunean, ez zara deskribatzen ari gertatu zena: beste zerbait ere ematen ari zara egindakotzat, alegia, beste era batera joka zezakeela. Kendu suposizio hori, eta begiratu zer geratzen den zutik. Merezimendua absurdo bihurtzen da, egin zezakeen gauza bakarra egiteagatik norbait zoriontzea harri bat erortzeagatik zoriontzearen nahiko antzekoa baita. Errua krudel bihurtzen da. Zigorra bere erabilgarritasuna beste justifikaziorik gabe geratzen da. Eta barkamenak bere objektua galtzen du, jada ez baitago zer barkaturik. Moral osoa dago suposizio horretatik zintzilik; beraz, galdetu beharra dago ea eusten dion. Determinismoa eta indeterminismoa ikasiak dituzu dagoeneko, eta ez ditugu errepikatuko (<a href="chapters-web/gaia-21.html#sec-80">§80</a>); orain dagokiguna berez etikoa dena da, beste gauza bat baita: zer gertatzen zaion erantzukizunari, erantzun haietako zein ontzat ematen duzunaren arabera.</p>
+<p><strong>Askatasunik gabe ez dago zer epaiturik.</strong> Teoria etikoetan sartu aurretik, komeni da gelditzea norbait epaitzen dugun bakoitzean berez ontzat ematen dugun zerbaitetan. Zure lagunak zurekin gaizki jokatu zuela diozunean, ez zara deskribatzen ari gertatu zena: beste zerbait ere ematen ari zara egindakotzat, alegia, beste era batera joka zezakeela. Kendu suposizio hori, eta begiratu zer geratzen den zutik. Merezimendua absurdo bihurtzen da, egin zezakeen gauza bakarra egiteagatik norbait zoriontzea harri bat erortzeagatik zoriontzearen nahiko antzekoa baita. Errua krudel bihurtzen da. Zigorra bere erabilgarritasuna beste justifikaziorik gabe geratzen da. Eta barkamenak bere objektua galtzen du, jada ez baitago zer barkaturik. Moral osoa dago suposizio horretatik zintzilik; beraz, galdetu beharra dago ea eusten dion. Determinismoa eta indeterminismoa ikasiak dituzu dagoeneko, eta ez ditugu errepikatuko (<a href="../chapters-web/gaia-21.html#sec-80">§80</a>); orain dagokiguna berez etikoa dena da, beste gauza bat baita: zer gertatzen zaion erantzukizunari, erantzun haietako zein ontzat ematen duzunaren arabera.</p>
 <p><strong>Hiru jarrerak.</strong> Hiru dira, eta ez gauza beraren bi gradu. <em>Determinismo gogorra</em> delakoak onartzen du gertatzen den guztia aurreko kausek determinatuta dagoela, zure erabakiak barne, eta ondorioztatzen dela dirudien ondorioa ateratzen du: orduan ez gara libreak, eta inor ez da ezeren erantzule. <em>Libertarianismoa</em> delakoak alderantzizko bidea egiten du: libreak garenez —eta horretaz, dio, unibertsoaren fisikari buruzko edozein tesiz baino ebidentzia hobea dugu—, determinismoak faltsua izan behar du, hain zuzen, erabakitzen dugun puntuan. Ez du zerikusirik <em>libertarismo</em> politikoarekin: hura beste gauza bat da, eta kasualitatez du izen bera. Eta <em>konpatibilismoa</em> delakoak uko egiten dio aukeratzeari: dio libre izatea eta determinatuta egotea ez direla elkarren oztopo, eta, beraz, determinismoa egiazkoa izan zein ez, libre eta erantzule izaten jarraituko genukeela; horrez gain determinismoa egiazkoa <em>dela</em> baieztatzen duenari <em>determinista biguna</em> deitzen zaio. Errepara iezaiozu lehenengo biek suposizio bat partekatzen dutela, eta horregatik deitzen zaiela biei <em>inkonpatibilista</em>: ontzat ematen dute askatasuna eta determinismoa ez direla elkarrekin kabitzen. Bereizten dituena da bietatik zein sakrifikatzen duten<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
-<p><strong>Konpatibilista delakoak aldatzen duena.</strong> Tranpa dirudi, eta ez da. Ikusia duzu zertan datzan haren jokaldia —«libre» birdefinitzea, <em>zeure kausengatik eta inork behartu gabe jardutea</em> bihurtuta— eta zer adibiderekin: presoarena eta zer ikasi aukeratzen duenarena (<a href="chapters-web/gaia-21.html#sec-80">§80</a>). Hemen axola duena jokaldi horren prezioa eta irabazia da. Inkonpatibilistarentzat, ekintza bat librea da beste zerbait egin ahal bazenuen; konpatibilistarentzat, baldintza hori soberan dago. Eta soberan badago, determinismoak erantzukizuna mehatxatzeari uzten dio. Hemen sartzen da jarrera honen alde beste ezerk baino gehiago egin duen pentsamendu-esperimentua: Harry Frankfurtek (1929-2023) proposatu zuen 1969an, eta gero mila aldiz kontatu izan da honela. Imajinatu norbaitek gailu bat ezartzen dizula, zure erabakian esku hartzeko gai dena berari komeni ez zaiona bozkatzera bazoaz, eta ezer egiten ez duena berak nahi duena bozkatzera bazoaz. Zeure kabuz bozkatzen duzu hark nahi zuena, eta gailua ez da aktibatzera iristen. Ezin zenuen beste ezer egin, eta, hala ere, erabakia zurea izan zen hasieratik bukaeraraino. Kasuak funtzionatzen badu, «beste zerbait egin ahal izatea» ez da erantzule egiten zaituena, eta orduan determinismoak mehatxu izateari uzten dio<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+<p><strong>Konpatibilista delakoak aldatzen duena.</strong> Tranpa dirudi, eta ez da. Ikusia duzu zertan datzan haren jokaldia —«libre» birdefinitzea, <em>zeure kausengatik eta inork behartu gabe jardutea</em> bihurtuta— eta zer adibiderekin: presoarena eta zer ikasi aukeratzen duenarena (<a href="../chapters-web/gaia-21.html#sec-80">§80</a>). Hemen axola duena jokaldi horren prezioa eta irabazia da. Inkonpatibilistarentzat, ekintza bat librea da beste zerbait egin ahal bazenuen; konpatibilistarentzat, baldintza hori soberan dago. Eta soberan badago, determinismoak erantzukizuna mehatxatzeari uzten dio. Hemen sartzen da jarrera honen alde beste ezerk baino gehiago egin duen pentsamendu-esperimentua: Harry Frankfurtek (1929-2023) proposatu zuen 1969an, eta gero mila aldiz kontatu izan da honela. Imajinatu norbaitek gailu bat ezartzen dizula, zure erabakian esku hartzeko gai dena berari komeni ez zaiona bozkatzera bazoaz, eta ezer egiten ez duena berak nahi duena bozkatzera bazoaz. Zeure kabuz bozkatzen duzu hark nahi zuena, eta gailua ez da aktibatzera iristen. Ezin zenuen beste ezer egin, eta, hala ere, erabakia zurea izan zen hasieratik bukaeraraino. Kasuak funtzionatzen badu, «beste zerbait egin ahal izatea» ez da erantzule egiten zaituena, eta orduan determinismoak mehatxu izateari uzten dio<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
 <p><strong>Neurozientzia eztabaidan sartzen da.</strong> Askotan entzungo duzu «zientziak frogatu du ez garela libreak», eta ia beti esperimentu bera dago atzean. 1983an, Benjamin Libetek (1916-2007) boluntario batzuei eskatu zien hatz bat flexiona zezatela nahi zutenean, eta apunta zezatela zein unetan sentitu zuten hori egiteko nahia, erloju-orratz baten moduan biraka zebilen puntu bati jarraituz. Aurkitu zuen garunaren jarduera elektrikoa —<em>prestasun-potentziala</em> (<em>Bereitschaftspotential</em>) deitua— une hori baino 350 bat milisegundo lehenago hasten zela, eta une hori, aldi berean, mugimendua baino 200 bat milisegundo lehenago zetorrela: kontu osoa segundo erdi pasatxoan gertatzen da. Zabaldu zen ondorioa izan zen garunak lehenago erabakitzen duela eta kontzientzia gero jabetzen dela<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. Orain errepara iezaiozu esperimentu horrek <em>esaten ez duen</em> guztiari. Hatz bat une arbitrario batean flexionatzea ez da erabaki moral deliberatu bat, eta hemen horretaz ari gara. Alfred Melek (1951-) argudiatu du potentzial hori ez dela ekintzaren kausa, ezta hartuta dagoen erabaki bat ere, gehienez ere bulkada baten arrastoa baizik —erabakian amai daitekeena, edo ez—, eta intentzio kontzienteak, gero datorrenak, bai egiten duela lan kausala<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. Eta 2012an, neurozientzialari talde batek are deserosoagoa den zerbait proposatu zuen: potentziala metodoaren artefaktu bat izan litekeela, berezko gorabeherak mugimendutik atzerantz lerrokatuta batez bestekoak egitearen ondorioa<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>. Esperimentu batek egozten zaiona ez frogatzeak ez du esperimentu txar bihurtzen; ondorioa neurtutakora mugatzeko eskatzen irakasten dizu.</p>
 <p><strong>Zer dagoen jokoan.</strong> Hau ez da saloi-joko bat, eta epaitegi bati begiratu orduko ikusten da. Norbait zigortzea <em>merezi duelako</em> —eta ez gu babesteko, ez eskarmentua har dezan, ez gizarteratzeko— da <em>ordainketa</em> deitzen dena. Ez da zentzu sendoan libre den errudun bat behar duen zigor-justifikazio bakarra, norbait gaitzesteak edo damutzeko eskatzeak gauza bera aurresuposatzen baitute; baina bai merezimendu horretan agortzen dena, eta, hura galdu orduko, ezer gabe geratzen dena. Askatasun hori ukatzen duena ez da erantzunik gabe geratzen: arriskutsua dena giltzapetzen jarrai dezake, gaixotasun kutsakorra duena isolatzen dugun eskubide beraren izenean, eta horregatik errurik egotzi gabe. <em>Berrogeialdi-eredua</em> deitzen zaio, eta ez da ate ireki bat: defendatzen duenak eransten du, gaixoarekin bezala, ezinbesteko murrizketa minimoa baino ez dela zilegi, eta tratatzeko obligazioarekin<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>. Hezkuntza ere aldatzen da, saritzeak eta zigortzeak epaitegiaren gauza bera aurresuposatzen baitute; eta aldatzen da, batez ere, kalte egiten duenari begiratzeko era. Non kokatzen zaren erabaki aurretik, egiozu galdera zeure buruari alde batera eta bestera: prest egongo zinateke besteentzat ateratzen duzun ondorioa zeure buruari aplikatzeko?</p>
 </section>
@@ -710,13 +722,13 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="sec-90">§90 · Metaetika: objektibismoa eta erlatibismoa</h2>
 <p><strong>Metaetikak</strong> pauso bat egiten du atzera, eta edozein eztabaida moralek esan gabe ontzat ematen duenaz galdetzen du. Ez du galdetzen gezurra esatea gaizki dagoen: galdetzen du zer gauza-mota den zerbait «gaizki egotea», hori egiazkoa edo faltsua izan ote daitekeen, nola iritsiko ginatekeen jakitera, eta zergatik mugitu beharko gintuzkeen<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>.</p>
 <p><strong>Hiru solairu, eta hau da behekoa.</strong> Etika hiru mailatan aztertzen da, eta komeni da jakitea zeinetan zauden. <em>Metaetikak</em> ez du araurik proposatzen: arauak zerez eginak dauden aztertzen du. <em>Etika normatiboa</em>, bai, bustitzen da, eta irizpideak eskaintzen ditu zer dagoen ondo erabakitzeko: horretan dihardute jarraian ikasiko dituzun teoria etiko handiek, bat erantzun handi bakoitzeko. Eta <em>etika aplikatuak</em> irizpide horiek kasu zehatz eta eztabaidatuetara jaisten ditu; hori da azken gaia. Ordena ez da apeta hutsa: zein arau den ona eztabaidatzea, arau batek zer gauza-mota izan nahi duen jakin gabe, itsuan eztabaidatzea da.</p>
-<p>Metaetikaren galderak lau familiatan biltzen dira. <em>Metafisikoak</em>: ba al dago egitate moralik hor kanpoan, ala gure iritziak baino ez daude? Horiek dira gai honen gainerako guztia hartzen dutenak. <em>Epistemologikoak</em>: halakorik balego, nola ezagutuko genituzke? <em>Semantikoak</em>: zer egiten dugu, zehazki, «hau gaizki dago» esatean<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>? Eta <em>psikologikoak</em>: zergatik jokatu moralki? (<a href="chapters-web/gaia-24.html#sec-91">§91</a>).</p>
+<p>Metaetikaren galderak lau familiatan biltzen dira. <em>Metafisikoak</em>: ba al dago egitate moralik hor kanpoan, ala gure iritziak baino ez daude? Horiek dira gai honen gainerako guztia hartzen dutenak. <em>Epistemologikoak</em>: halakorik balego, nola ezagutuko genituzke? <em>Semantikoak</em>: zer egiten dugu, zehazki, «hau gaizki dago» esatean<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>? Eta <em>psikologikoak</em>: zergatik jokatu moralki? (<a href="../chapters-web/gaia-24.html#sec-91">§91</a>).</p>
 <p><strong>Objektibismo morala.</strong> Eztabaida bi poloren artean mugitzen da. Batak defendatzen du arau moralak egia betiereko, absolutu, aldaezin eta unibertsalak direla, garai guztietako izaki arrazional guztiei eragiten dieten aldetik. Ikusmolde honen muturreko kasua <strong>Platonek</strong> ordezkatzen du: pentsatzen zuen balio moralek giza ekintzetatik bereizitako existentzia zutela, «gauzak» zirela, gauza <em>inmaterialak</em> baziren ere. Matematika asmatu ez dugun bezala, eta <span class="math inline">\(1 + 1 = 2\)</span> dela <em>aurkitu</em> egin dugun bezala, balio moralak ez dira giza asmakuntza: gure arrazoia erabiliz aurkitzen ditugu.</p>
 <p><strong>Boluntarismoa</strong> delakoa beste objektibismo mota bat da, Erdi Aroko pentsalari kristau batzuena, hala nola Ockhamgo Guillermorena (1287 inguru-1347) eta Juan Duns Escotorena (1266 inguru-1308). Ekintza bat on egiten duena, diote, Jainkoak nahi izatea da, eta ez alderantziz: araua haren <em>borondatetik</em> ateratzen da, eta ez haren adimenetik; beraz, ezin dugu araua arrazoituz atzeman, ezta aztertu ere<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>. Objekzioa Platon bezain zaharra da, berak planteatzen baitu <em>Eutifron</em>en: zerbait ondo badago Jainkoak agintzen <em>duelako</em>, kontrakoa agindu zezakeen, eta gaur hura litzateke derrigorrezkoa; eta ondo dagoelako agintzen <em>badu</em>, ontasuna ez du aginduak jartzen.</p>
-<p><strong>Erlatibismo morala.</strong> Kontrako jarrerak balio eta arau moralen izaera objektiboa ukatzen du. Sofistei egotzi ohi zaie; eszeptikoekin kontu handiagoz ibili behar da, ez baita gauza bera ezagutza moralik badenik ukatzea eta egia morala taldearekin aldatzen dela esatea (<a href="chapters-web/gaia-14.html#sec-56">§56</a>). Ez dituzte arbuiatzen balio moralen existentzia edo komenigarritasuna, baina, berezko entitatetzat edo Jainkoaren pentsamendutzat hartu beharrean, hertsiki <em>giza asmakuntzak</em> direla pentsatzen dute. Eta, bere aldetik, bi erlatibismo moral mota daude.</p>
-<p><em>Banakako erlatibismoa.</em> Banakako erlatibismoa delakoak dio gizabanako bakoitzak bere irizpide moral propioa sor dezakeela; filosofia-liburuetan maizago aurkituko duzu <em>subjektibismoa</em> izenarekin, «erlatibismoa» gordez erlatiboa dena taldea denerako. Friedrich Nietzschek (1844-1900) defendatzen zuen <em>supergizakiak</em> bere moral propioa sortzen duela, masari dagokion esklaboaren moralaz bestelakoa. Nietzscheri gai oso bat eskainiko diogu aurrerago (<a href="chapters-web/gaia-28.html#sec-109">§109</a>).</p>
-<p><em>Kultura-erlatibismoa.</em> Bertsiorik hedatuenak ulertzen du <em>moralitatea gizartearen produktua dela</em>, ez gizabanako batena, eta, beraz, morala gizarte batetik bestera eta garai batetik bestera aldatzen dela. Bizikidetzarako dituen ondorioak ikasiak dituzu kulturen aniztasunaz hitz egitean (<a href="chapters-web/gaia-09.html#sec-37">§37</a>); hemen eztabaidatzen dena beste gauza bat da: judizioen egia. Tradizio horretan aipatu ohi dira sofistak, Michel de Montaigne (1533-1592) eta William Graham Sumner soziologoa (1840-1910), zeinak formulazio modernoa eman baitzion <em>Folkways</em>-en (1906)<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>.</p>
-<p><strong>Nahasten diren bi gauza, eta ez dira gauza bera.</strong> Gizarteak moral kontuetan desados egotea, eta oso desados, egitate behagarria da: horri <em>erlatibismo deskribatzailea</em> deitzen zaio. Taldeen gainetik egia moralik ez egotea, halako moldez non zuzena dena haietako batentzat <em>bakarrik</em> baita zuzena, tesi filosofikoa da: <em>erlatibismo metaetikoa</em>, hemen dagokiguna. Egitatetik ez da tesia ondorioztatzen: bi pertsona unibertsoaren adinaz desados egoteak ez du frogatzen unibertsoak adinik ez duenik. Batetik bestera igarotzeko, argumentu bat gehiago behar da —desadostasun hori arrazoituz ezin konpondu izatea, ezta printzipioz ere—, eta hor borrokatzen dira benetan erlatibistak eta objektibistak<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>. Errepara iezaiozu oraintxe egin duzunari, behin eta berriz eskatuko zaizun gauza baita: begiratzea ea premisetatik benetan ateratzen den ondorioa (<a href="chapters-web/gaia-15.html#sec-59">§59</a>).</p>
+<p><strong>Erlatibismo morala.</strong> Kontrako jarrerak balio eta arau moralen izaera objektiboa ukatzen du. Sofistei egotzi ohi zaie; eszeptikoekin kontu handiagoz ibili behar da, ez baita gauza bera ezagutza moralik badenik ukatzea eta egia morala taldearekin aldatzen dela esatea (<a href="../chapters-web/gaia-14.html#sec-56">§56</a>). Ez dituzte arbuiatzen balio moralen existentzia edo komenigarritasuna, baina, berezko entitatetzat edo Jainkoaren pentsamendutzat hartu beharrean, hertsiki <em>giza asmakuntzak</em> direla pentsatzen dute. Eta, bere aldetik, bi erlatibismo moral mota daude.</p>
+<p><em>Banakako erlatibismoa.</em> Banakako erlatibismoa delakoak dio gizabanako bakoitzak bere irizpide moral propioa sor dezakeela; filosofia-liburuetan maizago aurkituko duzu <em>subjektibismoa</em> izenarekin, «erlatibismoa» gordez erlatiboa dena taldea denerako. Friedrich Nietzschek (1844-1900) defendatzen zuen <em>supergizakiak</em> bere moral propioa sortzen duela, masari dagokion esklaboaren moralaz bestelakoa. Nietzscheri gai oso bat eskainiko diogu aurrerago (<a href="../chapters-web/gaia-28.html#sec-109">§109</a>).</p>
+<p><em>Kultura-erlatibismoa.</em> Bertsiorik hedatuenak ulertzen du <em>moralitatea gizartearen produktua dela</em>, ez gizabanako batena, eta, beraz, morala gizarte batetik bestera eta garai batetik bestera aldatzen dela. Bizikidetzarako dituen ondorioak ikasiak dituzu kulturen aniztasunaz hitz egitean (<a href="../chapters-web/gaia-09.html#sec-37">§37</a>); hemen eztabaidatzen dena beste gauza bat da: judizioen egia. Tradizio horretan aipatu ohi dira sofistak, Michel de Montaigne (1533-1592) eta William Graham Sumner soziologoa (1840-1910), zeinak formulazio modernoa eman baitzion <em>Folkways</em>-en (1906)<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>.</p>
+<p><strong>Nahasten diren bi gauza, eta ez dira gauza bera.</strong> Gizarteak moral kontuetan desados egotea, eta oso desados, egitate behagarria da: horri <em>erlatibismo deskribatzailea</em> deitzen zaio. Taldeen gainetik egia moralik ez egotea, halako moldez non zuzena dena haietako batentzat <em>bakarrik</em> baita zuzena, tesi filosofikoa da: <em>erlatibismo metaetikoa</em>, hemen dagokiguna. Egitatetik ez da tesia ondorioztatzen: bi pertsona unibertsoaren adinaz desados egoteak ez du frogatzen unibertsoak adinik ez duenik. Batetik bestera igarotzeko, argumentu bat gehiago behar da —desadostasun hori arrazoituz ezin konpondu izatea, ezta printzipioz ere—, eta hor borrokatzen dira benetan erlatibistak eta objektibistak<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>. Errepara iezaiozu oraintxe egin duzunari, behin eta berriz eskatuko zaizun gauza baita: begiratzea ea premisetatik benetan ateratzen den ondorioa (<a href="../chapters-web/gaia-15.html#sec-59">§59</a>).</p>
 
 
 </section>
@@ -742,19 +754,131 @@ window.Quarto = {
 </section>
 
 </main> <!-- /main -->
+<!--
+  CORNISA MÓVIL (D259, 2026-11-20) · colección Areté
+  En pantallas estrechas Quarto ya pinta una barra superior fija con el hilo
+  de Ariadna: la parte y el título del tema. Al leer un tema largo en el móvil
+  eso no dice dónde estás. Este guion pone en esa misma barra el tema y el
+  apartado (§) que tienes delante, como la cornisa de un libro impreso, y lo
+  actualiza al hacer scroll.
+
+  Cómo: un IntersectionObserver vigila los h2 del cuerpo. Cada vez que uno
+  cruza la línea que hay a un quinto de la altura de la pantalla, la cornisa
+  toma el último h2 que ya ha pasado por encima de esa línea. La zona vigilada
+  empieza muy por encima de la pantalla, para que un scroll rápido que salta
+  un apartado entero también avise. No escucha cada píxel de scroll.
+
+  Dónde se ve: solo cuando la barra superior existe, que desde D259 es por
+  debajo de 768 px (custom.scss esconde la barra a partir de ese ancho,
+  porque ahí la barra lateral ya está fija). En escritorio no hace nada
+  visible. El aspecto —una o dos líneas recortadas con puntos suspensivos—
+  vive en custom.scss, sección «CORNISA MÓVIL».
+
+  Quarto pega este fichero al final de cada página (`include-after-body` en
+  los seis _quarto.yml); no se publica como fichero aparte. Ninguna sintaxis
+  nueva en el Markdown (D43).
+-->
+<script>
+(function () {
+  "use strict";
+  var barra = document.querySelector(".quarto-secondary-nav .container-fluid");
+  var cuerpo = document.getElementById("quarto-document-content");
+  var h1 = cuerpo && cuerpo.querySelector("header h1.title, h1.title");
+  if (!barra || !h1 || document.querySelector(".arete-portada")) return;
+
+  var texto = function (el) {
+    var c = el.cloneNode(true);
+    c.querySelectorAll(".anchorjs-link, .header-section-number").forEach(function (x) { x.remove(); });
+    return c.textContent.replace(/\s+/g, " ").trim();
+  };
+
+  var tema = texto(h1);
+  var titulos = Array.prototype.slice.call(cuerpo.querySelectorAll("section.level2 > h2"));
+
+  var cornisa = document.createElement("div");
+  cornisa.className = "arete-cornisa";
+  cornisa.setAttribute("aria-hidden", "true");   // el hilo de Ariadna de Quarto sigue ahí para los lectores de pantalla
+  var lineaTema = document.createElement("span");
+  lineaTema.className = "arete-cornisa__tema";
+  lineaTema.textContent = tema;
+  var lineaSeccion = document.createElement("span");
+  lineaSeccion.className = "arete-cornisa__seccion";
+  cornisa.appendChild(lineaTema);
+  cornisa.appendChild(lineaSeccion);
+
+  var hilo = barra.querySelector(".quarto-page-breadcrumbs");
+  barra.insertBefore(cornisa, hilo ? hilo.nextSibling : barra.firstChild.nextSibling);
+  document.body.classList.add("arete-con-cornisa");
+
+  var actual = null;
+  var pinta = function () {
+    var limite = window.innerHeight * 0.2, elegido = null;
+    for (var i = 0; i < titulos.length; i++) {
+      if (titulos[i].getBoundingClientRect().top <= limite) elegido = titulos[i];
+      else break;
+    }
+    if (elegido === actual) return;
+    actual = elegido;
+    lineaSeccion.textContent = elegido ? texto(elegido) : "";
+    cornisa.classList.toggle("arete-cornisa--seccion", !!elegido);
+  };
+
+  if (titulos.length && "IntersectionObserver" in window) {
+    var vigia = new IntersectionObserver(pinta, { rootMargin: "100000px 0px -80% 0px" });
+    titulos.forEach(function (t) { vigia.observe(t); });
+  }
+  window.addEventListener("hashchange", function () { setTimeout(pinta, 60); });
+  pinta();
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Aldatu modu iluna");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
       const i = window.document.createElement("i");
       i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Aldatu modu iluna");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
     }
     setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
@@ -833,7 +957,8 @@ window.Quarto = {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -842,8 +967,69 @@ window.Quarto = {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -857,6 +1043,7 @@ window.Quarto = {
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -1019,44 +1206,54 @@ window.Quarto = {
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -1155,7 +1352,10 @@ window.Quarto = {
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Korritu daitekeen kodea","output":"Korritu daitekeen irteera"};
+  </script>
+<nav class="page-navigation" aria-label="Orrialdea">
   <div class="nav-page nav-page-previous">
       <a href="../unitatea-5.html" class="pagination-link" aria-label="V. unitatea · Etika">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">V. unitatea · Etika</span>

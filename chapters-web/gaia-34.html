@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="eu" xml:lang="eu"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,18 +40,19 @@ ul.task-list li input[type="checkbox"] {
 <link href="../chapters-web/gaia-33.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fc20a56aadcab808120179de1ae02e97.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-ee624aba7dd1a522a65201b5a843d75b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-fc20a56aadcab808120179de1ae02e97.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b29469c5149ea663b658181c1cab893f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-1eae7551a8b327b748a04a3a7b98b1fb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b29469c5149ea663b658181c1cab893f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -85,7 +86,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../quarto-theme/print.css">
 </head>
 
-<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -108,6 +109,7 @@ ul.task-list li input[type="checkbox"] {
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
         if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
           if (alternate) {
             toggle.classList.add("alternate");
           } else {
@@ -137,13 +139,19 @@ ul.task-list li input[type="checkbox"] {
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
       setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
         manageTransitions("body", false);
-        window.scrollTo(0, 1);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
         setTimeout(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, scrollY);
           manageTransitions("body", true);
         }, 40);
       }
@@ -237,6 +245,7 @@ ul.task-list li input[type="checkbox"] {
       // Read the current dark / light value
       let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
@@ -251,13 +260,13 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Lanabes-barra">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Aldatu alboko barraren nabigazioa" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../unitatea-6.html">VI. unitatea · Filosofia politikoa</a></li><li class="breadcrumb-item"><a href="../chapters-web/gaia-34.html"><span class="chapter-title">34. gaia · Demokrazia eta Estatua</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Aldatu alboko barraren nabigazioa" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Bidea"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../unitatea-6.html">VI. unitatea · Filosofia politikoa</a></li><li class="breadcrumb-item"><a href="../chapters-web/gaia-34.html"><span class="chapter-title">34. gaia · Demokrazia eta Estatua</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Bilatu" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -268,17 +277,14 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Webgune"><div class="quarto-sidebar-header"><div class="sidebar-header-item">
+<p><a href="https://arete.eukeniacebal.net/">Areté</a></p>
+</div></div>
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Filosofia</a> 
-        <div class="sidebar-tools-main tools-wide">
-    <a href="https://arete.eukeniacebal.net/" title="Areté bilduma" class="quarto-navigation-tool px-1" aria-label="Areté bilduma"><i class="bi bi-house-door"></i></a>
-    <a href="https://arete.eukeniacebal.net/filosofia-manual/" title="Gaztelaniazko bertsioa" class="quarto-navigation-tool px-1" aria-label="Gaztelaniazko bertsioa"><i class="bi bi-translate"></i></a>
-    <a href="https://github.com/eukeni-acebal/filosofia-testuliburua/releases/latest/download/filosofia-testuliburua.pdf" title="PDFa deskargatu" class="quarto-navigation-tool px-1" aria-label="PDFa deskargatu"><i class="bi bi-file-earmark-pdf"></i></a>
-    <a href="mailto:arete.eukeni@gmail.com?subject=Akatsa%20edo%20iradokizuna%20%C2%B7%20Filosofia%201" title="Idatzidazu" class="quarto-navigation-tool px-1" aria-label="Idatzidazu"><i class="bi bi-envelope"></i></a>
-    <a href="https://github.com/eukeni-acebal/filosofia-testuliburua" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Aldatu modu iluna"><i class="bi"></i></a>
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Aldatu modu iluna" aria-label="Aldatu modu iluna"><i class="bi"></i></button>
 </div>
     </div>
       </div>
@@ -302,12 +308,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">I. unitatea · Filosofia berari buruzko gogoeta filosofikoa</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-1-label">I. unitatea · Filosofia berari buruzko gogoeta filosofikoa</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Aldatu atala: I. unitatea · Filosofia berari buruzko gogoeta filosofikoa">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. gaia · Zer da Filosofia?</span></a>
@@ -348,12 +354,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">II. unitatea · Antropologia</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-2-label">II. unitatea · Antropologia</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Aldatu atala: II. unitatea · Antropologia">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-07.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. gaia · Giza izaera: eboluzioa eta hominizazioa</span></a>
@@ -389,12 +395,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">III. unitatea · Epistemologia</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-3-label">III. unitatea · Epistemologia</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Aldatu atala: III. unitatea · Epistemologia">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-12.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">12. gaia · Ezagutza eta egia</span></a>
@@ -435,12 +441,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">IV. unitatea · Metafisika</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-4-label">IV. unitatea · Metafisika</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Aldatu atala: IV. unitatea · Metafisika">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-18.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">18. gaia · Erreala denaren izaera</span></a>
@@ -476,12 +482,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">V. unitatea · Etika</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-5-label">V. unitatea · Etika</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Aldatu atala: V. unitatea · Etika">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-23.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">23. gaia · Etika eta morala: kontzeptuak eta metaetika</span></a>
@@ -527,12 +533,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">VI. unitatea · Filosofia politikoa</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-6-label">VI. unitatea · Filosofia politikoa</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true" aria-label="Aldatu atala: VI. unitatea · Filosofia politikoa">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-30.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">30. gaia · Giza eskubideak</span></a>
@@ -578,12 +584,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../unitatea-7.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">VII. unitatea · Estetika</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Aldatu atala">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-7-label">VII. unitatea · Estetika</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true" aria-label="Aldatu atala: VII. unitatea · Estetika">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters-web/gaia-37.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">37. gaia · Artea, edertasuna eta gustua</span></a>
@@ -613,11 +619,17 @@ ul.task-list li input[type="checkbox"] {
 </li>
     </ul>
     </div>
-</nav>
+<div class="quarto-sidebar-footer"><div class="sidebar-footer-item">
+<ul>
+<li><a href="https://arete.eukeniacebal.net/filosofia-manual/" lang="es" hreflang="es">En castellano</a></li>
+<li><a href="https://github.com/eukeni-acebal/filosofia-testuliburua/releases/latest/download/filosofia-testuliburua.pdf">PDFa deskargatu</a></li>
+<li><a href="mailto:arete.eukeni@gmail.com?subject=Akatsa%20edo%20iradokizuna%20%C2%B7%20Filosofia%201">Idatzidazu</a></li>
+</ul>
+</div></div></nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Orrialde honetan</h2>
    
   <ul class="collapse">
@@ -629,10 +641,10 @@ ul.task-list li input[type="checkbox"] {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../unitatea-6.html">VI. unitatea · Filosofia politikoa</a></li><li class="breadcrumb-item"><a href="../chapters-web/gaia-34.html"><span class="chapter-title">34. gaia · Demokrazia eta Estatua</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Bidea"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../unitatea-6.html">VI. unitatea · Filosofia politikoa</a></li><li class="breadcrumb-item"><a href="../chapters-web/gaia-34.html"><span class="chapter-title">34. gaia · Demokrazia eta Estatua</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-title">34. gaia · Demokrazia eta Estatua</span></h1>
 </div>
@@ -681,9 +693,9 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Zer beste sistema hoberik dago?</strong> Historiak gobernu bidegabeen adibide amaigabeak ematen dizkigu, eta bidezko gutxi batzuk. Horien artean demokrazia hobeak edo txarragoak egongo dira, baina ez dago autokrazia onik. Izan ere, tirano batek, diktadore batek edo oligarkia batek guztien onerako gobernatu nahi dutela esanda ere, zerk ahalbidetzen ditu horretarako? zerk legitimatzen ditu? Eta, batez ere, nola izango dira herritarren oro har eta haien interesen ordezkari?</p>
 <p><strong>Zuzena ala ordezkaritzazkoa.</strong> Behar izango duzun bereizketa bat falta da, orain arte esan gabe eman duguna, «demokrazia» diogunean bi gauza oso desberdin esaten ari baikaitezke. <em>Zuzeneko demokrazian</em> herritarrek beraiek erabakitzen dute, auziz auzi: bildu, eztabaidatu eta gauza bera bozkatzen dute, ez gauza erabakiko duena. <em>Ordezkaritzazko demokrazian</em>, berriz, denbora jakin batez beraien ordez erabakiko dutenak hautatzen dituzte; beraz, bozkatzen dena ez dira neurriak, pertsonak eta programak baizik.</p>
 <p><strong>Bakoitzak eskatzen dizuna.</strong> Aldea ez dago mekanismoan bakarrik: eskatzen dizunean dago. Zuzenekoak denbora, informazioa eta presentzia eskatzen dizkizu; asteartean hirigintzaz eta ostegunean osasungintzaz jakitea eskatzen dizu. Ordezkaritzazkoak askoz gutxiago eskatzen dizu —boto bat lau urtean behin—, eta, trukean, erabaki ia guztia kentzen dizu lau urte horietan, amaierako zigortzekoa utzita. Batak gobernatzea eskatzen dizu; besteak, gobernatuko duena hautatzea eta hari kontuak eskatzea.</p>
-<p><strong>Rousseau ez da fio.</strong> Ikusi duzu jada harentzat subiranotasuna herri osoarena dela eta borondate orokorrean adierazten dela. Hortik deseroso izaten jarraitzen duen ondorio bat ateratzen du: borondate orokorra ez da eskuordetzen. Agindu diezazuket erabaki duguna exekuta dezazula, baina ezin dizut agindu nire ordez nahi izan dezazula; nire borondatea ematen badizut, ematen dizudan une berean uzten diot libre izateari. Horregatik idazten du «Populu ingelesak libro dela uste du; arras makurrean da ordea; parlamentuko kideak hautatzen dituen denboran baizik ez da libro; haiek hautatuak diren bezain laster esklabo da, deus ere ez da»<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Hortik dator hura ikastean irakurri duzun esaldia, boutade bat ez dena: gure sistema parlamentarioa <em>hautatutako aristokrazia</em> bat dela, eta ez demokrazia bat (<a href="chapters-web/gaia-33.html#sec-133">§133</a>). Baina kontuz ñabardurarekin, axola baitu. Rousseauk nahiago du, bai, hautespenezko aristokrazia, baina <em>gobernu</em>-forma gisa, hau da, exekutatzeko modu gisa: haren eskeman herriak bilduta egiten ditu legeak oraindik ere, eta legeak egiten dituen parlamentua da, hain zuzen, berak baliogabetzat jotzen duena. Etiketa hori gure parlamentuei ezartzea gure kontua da, ez harena, eta hori hitz guztiekin egin duena politika-zientzia garaikidea da<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
-<p><strong>Eta hala ere.</strong> Rousseauk berak aitortzen du bere proposamenaren muga, eta dirudiena baino zorrotzagoa da: zuzeneko demokraziak Estatu oso txikia eskatzen du, ohitura oso sinpleak eta maila eta fortunen berdintasun handia, eta berak idazten du hain gobernu perfektua ez zaiela gizakiei komeni (<a href="chapters-web/gaia-33.html#sec-133">§133</a>). Estatu modernoak ez dira hori, eta gorago esan dugu jada: gaur parlamentu batek erabakitzen duen guztia erabakiko lukeen asanblada bat ez litzateke inoiz bukatuko. Baina kontuz ordezkaritza tamainatik bakarrik jaio zela ziurtzat jotzearekin. Zozketa, Atenasen <em>huraxe</em> zen prozedura demokratikoa, populazio handietan ere erabil zitekeen —zinpekoen epaimahaiek erakusten dute— eta hala ere blokean baztertu zen; eta ordezkaritzazko gobernua sortu zutenek ez zuten aurkeztu herrialde handietarako demokraziaren ordezko gisa, baizik eta gauza desberdin eta hobe gisa: erabakiak herritarren gorputz hautatu baten esku utziko zituen iragazki gisa. Hori jada ez da kilometro kontua.</p>
-<p><strong>Non dagoen eztabaida gaur.</strong> Bi ereduetako bat bera ere ez da puru existitzen. Gurea ordezkaritzazkoa da, eta zuzeneko demokraziaren piezak sartzen ditu auziak hala eskatzen duenean: erreferendumak, kontsultak, herri-ekimen legegileak, aurrekontu parte-hartzaileak. Suitza, aipatu dugun hori, alde zuzenekoaren muturreko kasua da, eta hala ere parlamentua eta gobernua ditu. Ohar zaitez funtsezko desadostasuna berriro bi askatasunena dela (<a href="chapters-web/gaia-31.html#sec-126">§126</a>): azentua negatiboan jartzen duenari aski zaio inork ez eragoztea bere erara bizitzea, eta ez du faltan botatzen dena erabakitzea; positiboan jartzen duenak bere bizitza komunaren jabe izan nahi du, eta hori ez da eskuordetzen zerbait galdu gabe.</p>
+<p><strong>Rousseau ez da fio.</strong> Ikusi duzu jada harentzat subiranotasuna herri osoarena dela eta borondate orokorrean adierazten dela. Hortik deseroso izaten jarraitzen duen ondorio bat ateratzen du: borondate orokorra ez da eskuordetzen. Agindu diezazuket erabaki duguna exekuta dezazula, baina ezin dizut agindu nire ordez nahi izan dezazula; nire borondatea ematen badizut, ematen dizudan une berean uzten diot libre izateari. Horregatik idazten du «Populu ingelesak libro dela uste du; arras makurrean da ordea; parlamentuko kideak hautatzen dituen denboran baizik ez da libro; haiek hautatuak diren bezain laster esklabo da, deus ere ez da»<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Hortik dator hura ikastean irakurri duzun esaldia, boutade bat ez dena: gure sistema parlamentarioa <em>hautatutako aristokrazia</em> bat dela, eta ez demokrazia bat (<a href="../chapters-web/gaia-33.html#sec-133">§133</a>). Baina kontuz ñabardurarekin, axola baitu. Rousseauk nahiago du, bai, hautespenezko aristokrazia, baina <em>gobernu</em>-forma gisa, hau da, exekutatzeko modu gisa: haren eskeman herriak bilduta egiten ditu legeak oraindik ere, eta legeak egiten dituen parlamentua da, hain zuzen, berak baliogabetzat jotzen duena. Etiketa hori gure parlamentuei ezartzea gure kontua da, ez harena, eta hori hitz guztiekin egin duena politika-zientzia garaikidea da<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p><strong>Eta hala ere.</strong> Rousseauk berak aitortzen du bere proposamenaren muga, eta dirudiena baino zorrotzagoa da: zuzeneko demokraziak Estatu oso txikia eskatzen du, ohitura oso sinpleak eta maila eta fortunen berdintasun handia, eta berak idazten du hain gobernu perfektua ez zaiela gizakiei komeni (<a href="../chapters-web/gaia-33.html#sec-133">§133</a>). Estatu modernoak ez dira hori, eta gorago esan dugu jada: gaur parlamentu batek erabakitzen duen guztia erabakiko lukeen asanblada bat ez litzateke inoiz bukatuko. Baina kontuz ordezkaritza tamainatik bakarrik jaio zela ziurtzat jotzearekin. Zozketa, Atenasen <em>huraxe</em> zen prozedura demokratikoa, populazio handietan ere erabil zitekeen —zinpekoen epaimahaiek erakusten dute— eta hala ere blokean baztertu zen; eta ordezkaritzazko gobernua sortu zutenek ez zuten aurkeztu herrialde handietarako demokraziaren ordezko gisa, baizik eta gauza desberdin eta hobe gisa: erabakiak herritarren gorputz hautatu baten esku utziko zituen iragazki gisa. Hori jada ez da kilometro kontua.</p>
+<p><strong>Non dagoen eztabaida gaur.</strong> Bi ereduetako bat bera ere ez da puru existitzen. Gurea ordezkaritzazkoa da, eta zuzeneko demokraziaren piezak sartzen ditu auziak hala eskatzen duenean: erreferendumak, kontsultak, herri-ekimen legegileak, aurrekontu parte-hartzaileak. Suitza, aipatu dugun hori, alde zuzenekoaren muturreko kasua da, eta hala ere parlamentua eta gobernua ditu. Ohar zaitez funtsezko desadostasuna berriro bi askatasunena dela (<a href="../chapters-web/gaia-31.html#sec-126">§126</a>): azentua negatiboan jartzen duenari aski zaio inork ez eragoztea bere erara bizitzea, eta ez du faltan botatzen dena erabakitzea; positiboan jartzen duenak bere bizitza komunaren jabe izan nahi du, eta hori ez da eskuordetzen zerbait galdu gabe.</p>
 <p>Galdera uzten dizut, eta ez dizut erantzuten: eragiten dizun erabakitik zenbat zaude prest zuk zeuk hartzeko, hartzeak zenbat kostatzen duen jakinda?</p>
 </section>
 <section id="sec-137" class="level2">
@@ -696,7 +708,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Monarkia absolutuen moduko erregimenetan, subiranoaren hitza da legea.</p></li>
 <li><p><strong>Banakako eskubideak eta askatasunak.</strong> Herritar guzti-guztiak berdinak dira legearen aurrean, eta eskubide eta askatasun berak dituzte. Oinarrizko eskubideak GEAUn jasota daude.</p>
 <p>Antolaketa estamental batean, aldiz, estamentu pribilegiatuak daude eta pribilegiorik gabeak, Erdi Aroko feudalismoan gertatzen zen bezala: nobleek eta elizgizonek herri xeheak ez zituen eskubideak zituzten.</p></li>
-<li><p><strong>Botere-banaketa.</strong> Montesquieu pentsalari ilustratu frantziarrak, Lockerengan jada present zegoen ideia bat jasoz (<a href="chapters-web/gaia-33.html#sec-132">§132</a>), hau zioen bere 1748ko <em>Legeen espirituaz</em> liburuan: «boterea duen gizon orok hartaz abusatzeko joera du; mugak aurkitu arte doa. Botereaz abusatzerik izan ez dadin, gauzak halako moduz antolatu behar dira, non botereak boterea geldiaraziko baitu». Horregatik proposatu zuen botereen bereizketa edo banaketa, zeinaren bidez Estatuaren hiru botere bereizten baitira. Horietako bakoitza erakunde desberdin batek beteko du, denak elkarren artean independente eta autonomo:</p>
+<li><p><strong>Botere-banaketa.</strong> Montesquieu pentsalari ilustratu frantziarrak, Lockerengan jada present zegoen ideia bat jasoz (<a href="../chapters-web/gaia-33.html#sec-132">§132</a>), hau zioen bere 1748ko <em>Legeen espirituaz</em> liburuan: «boterea duen gizon orok hartaz abusatzeko joera du; mugak aurkitu arte doa. Botereaz abusatzerik izan ez dadin, gauzak halako moduz antolatu behar dira, non botereak boterea geldiaraziko baitu». Horregatik proposatu zuen botereen bereizketa edo banaketa, zeinaren bidez Estatuaren hiru botere bereizten baitira. Horietako bakoitza erakunde desberdin batek beteko du, denak elkarren artean independente eta autonomo:</p>
 <ul>
 <li>Botere <em>legegileak</em> legeak ematen ditu.</li>
 <li>Botere <em>betearazleak</em> legeak aplikatzen ditu, eta haiek errespetatuz gobernatzen du.</li>
@@ -708,7 +720,7 @@ ul.task-list li input[type="checkbox"] {
 <li><p><strong>Hauteskunde askeak eta bidezkoak</strong>, aldizkakoak, gardenak eta sufragio unibertsalpekoak, gobernuenak. Inork ez du muturrik sartu behar herritarren hautatzeko gaitasunean, adibidez, ordezkari jakin bati botoa ematera behartuz. Ordezkariak aldian-aldian bozkatu behar dira, boterean betiko geldi ez daitezen, gobernari berriek aurrekoen akatsak desegin ahal izan ditzaten, halakorik balitz, eta aldatuz doan errealitate sozialaren ordezkari hobeak izan daitezen. Egiaztatu ahal izan behar da botoak behar bezala interpretatzen eta zenbatzen direla; horretarako, gure hauteskunde-sisteman, herritarrok hauteskunde-mahaiak osatzera deituak gara.</p>
 <p>Iruzurrezko hauteskundeek —<em>pucherazoak</em>, alkatekeriak—, biztanleriaren zati batek bakarrik parte har dezakeen hauteskundeek edo, besterik gabe, hauteskunderik ezak —erregimen totalitarioetan bezala— sistema politikoa ordezkagarritasun gutxiagokoa bihurtzen dute. Baina ez da soilik ordezkagarritasun-graduaren kontua: bidegabekeria nabarmena ere bada, adibidez, emakumeek edo etorkinek boto-eskubiderik ez dutenean. Saudi Arabia 32 000 000 pertsonako herrialdea da, eta han emakumeek botoa emateko eta hautatuak izateko eskubidea… 2015ean lortu zuten!</p></li>
 <li><p><strong>Gizarte zibila.</strong> <em>Estatua eta haren erakundeak</em> —hala nola Gobernua, Estatuburutza, auzitegiak, Parlamentua, polizia, armada, Gizarte Segurantza eta osasun-sistema— <em>ez dira herrialde baten bizitza publikoko elementu bakarra</em>: ez dute politikaren esparru osoa agortzen. Estatuaz eta merkatu pribatuaz gainera, gizarte zibila existitzen da; hori da, hain zuzen, esparru publikoan jarduten duten eta ez Estatuaren ez merkatuaren parte ez diren eragileen eta erakundeen multzoa: sindikatuak, elizak, kirol-elkarteak, bizilagunen erkidegoak, GKEak, elkargo profesionalak, etab.</p>
-<p><em>Estatu liberal</em> batek ahalik eta auzi gutxienez arduratu nahi du —lege- eta auzitegi-sistemaz, ahalik eta zerga-bilketa txikienaz eta osasun- eta azpiegitura-zerbitzu oinarrizko batzuez—, ekimenaren zatirik handiena merkatuak eta gizarte zibilak eraman dezaten. <em>Estatu totalitario</em> batek, aitzitik, gizarte-bizitzaren ahalik eta alderdi gehien arautzen ditu: merkatua gogor mugatzen du, ez du sindikaturik onartzen, eta elkartzeko, adierazteko eta gurtzeko askatasunak ezabatzen ditu. Planteamendu <em>sozialdemokratak</em> bien arteko oreka bilatzen du. Haien funtsezko desadostasuna bi askatasunena da (<a href="chapters-web/gaia-31.html#sec-126">§126</a>): zerk pisatzen du gehiago, Estatuak ez eragozteak ala baliabideak emateak?</p></li>
+<p><em>Estatu liberal</em> batek ahalik eta auzi gutxienez arduratu nahi du —lege- eta auzitegi-sistemaz, ahalik eta zerga-bilketa txikienaz eta osasun- eta azpiegitura-zerbitzu oinarrizko batzuez—, ekimenaren zatirik handiena merkatuak eta gizarte zibilak eraman dezaten. <em>Estatu totalitario</em> batek, aitzitik, gizarte-bizitzaren ahalik eta alderdi gehien arautzen ditu: merkatua gogor mugatzen du, ez du sindikaturik onartzen, eta elkartzeko, adierazteko eta gurtzeko askatasunak ezabatzen ditu. Planteamendu <em>sozialdemokratak</em> bien arteko oreka bilatzen du. Haien funtsezko desadostasuna bi askatasunena da (<a href="../chapters-web/gaia-31.html#sec-126">§126</a>): zerk pisatzen du gehiago, Estatuak ez eragozteak ala baliabideak emateak?</p></li>
 <li><p><strong>Gehiengoaren gobernua, gutxiengoaren eskubideak errespetatuz.</strong> Gehiengoa da oraindik ere demokraziaren irizpide nagusia. Euskadin edo Espainian Gobernu bat eratzeko, adibidez, beharrezkoa da sufragio unibertsalez hautatutako ordezkarien (parlamentarien) erdiek gehi batek Lehendakari edo Presidente bat bozkatzea. Lege garrantzitsuen aldaketetarako, gehiengo zabalagoak behar dira. Konstituzioa erreformatzeko, adibidez, diputatuen 3/5 eta senatarien 3/5 behar dira, hau da, Ganbera bakoitzaren % 60. Eta haren zatirik babestuenak ukitzeko —Atariko Titulua, oinarrizko eskubideak eta Koroa— langa askoz gorago igotzen da: Ganbera bakoitzaren 2/3, Gorteak desegitea, berriek beste 2/3 batez berrestea eta, azkenik, erreferenduma. Ez da apeta bat: demokrazia batek bere arauen aldaketa bere buruari zail jartzeko duen modua da. Nolanahi ere, Gobernuak ezin du onartu Konstituzioaren edo Espainiak sinatutako nazioarteko itunen —GEAU, esaterako— aurkako legerik.</p>
 <p>Badira herrialdeak non gehiengo etnikoek ez dituzten gutxiengoen eskubideak errespetatzen, gutxiengoek sufragio-eskubiderik ere ez izateraino. Edo, are okerrago, tokiak non gutxiengoak sistematikoki jazarriak diren. Badira kasuak, kurduena edo palestinarrena adibidez, non beraiek beren burua naziotzat jotzen duten, baina beren populazioa hainbat Estatutan banatuta dagoen, eta ez guztietan duten ordezkaritza-eskubidea.</p></li>
 <li><p><strong>Ordezkaritza.</strong> Herrialdeetako demokraziaren garapenaren irizpideetako bat ordezkaritzarena da: Parlamentuan eta legeetan herritarren ahalik eta aniztasun zabalena ordezkatuta egotea. Espainian, adibidez, azken hamarkadetako ahaleginak emakumeen ordezkaritza hobetzera bideratu dira, lege-neurriekin, hauteskunde-zerrenden erdiak emakumez osatuta egon daitezen. Gainera, zerrendok «kremailera-zerrendak» izan behar dute: gizonezko hautagai bati emakumezko hautagai batek jarraitu behar dio, honi beste gizonezko batek, eta horrela etengabe. Gure demokraziak hobetu dezakeen beste esparruetako bat gazteak, etorkinak, landa-eremuko biztanleak eta gutxiengo etnikoak gehiago eta hobeto aitortzetik igarotzen da.</p></li>
@@ -755,19 +767,131 @@ ul.task-list li input[type="checkbox"] {
 </section>
 
 </main> <!-- /main -->
+<!--
+  CORNISA MÓVIL (D259, 2026-11-20) · colección Areté
+  En pantallas estrechas Quarto ya pinta una barra superior fija con el hilo
+  de Ariadna: la parte y el título del tema. Al leer un tema largo en el móvil
+  eso no dice dónde estás. Este guion pone en esa misma barra el tema y el
+  apartado (§) que tienes delante, como la cornisa de un libro impreso, y lo
+  actualiza al hacer scroll.
+
+  Cómo: un IntersectionObserver vigila los h2 del cuerpo. Cada vez que uno
+  cruza la línea que hay a un quinto de la altura de la pantalla, la cornisa
+  toma el último h2 que ya ha pasado por encima de esa línea. La zona vigilada
+  empieza muy por encima de la pantalla, para que un scroll rápido que salta
+  un apartado entero también avise. No escucha cada píxel de scroll.
+
+  Dónde se ve: solo cuando la barra superior existe, que desde D259 es por
+  debajo de 768 px (custom.scss esconde la barra a partir de ese ancho,
+  porque ahí la barra lateral ya está fija). En escritorio no hace nada
+  visible. El aspecto —una o dos líneas recortadas con puntos suspensivos—
+  vive en custom.scss, sección «CORNISA MÓVIL».
+
+  Quarto pega este fichero al final de cada página (`include-after-body` en
+  los seis _quarto.yml); no se publica como fichero aparte. Ninguna sintaxis
+  nueva en el Markdown (D43).
+-->
+<script>
+(function () {
+  "use strict";
+  var barra = document.querySelector(".quarto-secondary-nav .container-fluid");
+  var cuerpo = document.getElementById("quarto-document-content");
+  var h1 = cuerpo && cuerpo.querySelector("header h1.title, h1.title");
+  if (!barra || !h1 || document.querySelector(".arete-portada")) return;
+
+  var texto = function (el) {
+    var c = el.cloneNode(true);
+    c.querySelectorAll(".anchorjs-link, .header-section-number").forEach(function (x) { x.remove(); });
+    return c.textContent.replace(/\s+/g, " ").trim();
+  };
+
+  var tema = texto(h1);
+  var titulos = Array.prototype.slice.call(cuerpo.querySelectorAll("section.level2 > h2"));
+
+  var cornisa = document.createElement("div");
+  cornisa.className = "arete-cornisa";
+  cornisa.setAttribute("aria-hidden", "true");   // el hilo de Ariadna de Quarto sigue ahí para los lectores de pantalla
+  var lineaTema = document.createElement("span");
+  lineaTema.className = "arete-cornisa__tema";
+  lineaTema.textContent = tema;
+  var lineaSeccion = document.createElement("span");
+  lineaSeccion.className = "arete-cornisa__seccion";
+  cornisa.appendChild(lineaTema);
+  cornisa.appendChild(lineaSeccion);
+
+  var hilo = barra.querySelector(".quarto-page-breadcrumbs");
+  barra.insertBefore(cornisa, hilo ? hilo.nextSibling : barra.firstChild.nextSibling);
+  document.body.classList.add("arete-con-cornisa");
+
+  var actual = null;
+  var pinta = function () {
+    var limite = window.innerHeight * 0.2, elegido = null;
+    for (var i = 0; i < titulos.length; i++) {
+      if (titulos[i].getBoundingClientRect().top <= limite) elegido = titulos[i];
+      else break;
+    }
+    if (elegido === actual) return;
+    actual = elegido;
+    lineaSeccion.textContent = elegido ? texto(elegido) : "";
+    cornisa.classList.toggle("arete-cornisa--seccion", !!elegido);
+  };
+
+  if (titulos.length && "IntersectionObserver" in window) {
+    var vigia = new IntersectionObserver(pinta, { rootMargin: "100000px 0px -80% 0px" });
+    titulos.forEach(function (t) { vigia.observe(t); });
+  }
+  window.addEventListener("hashchange", function () { setTimeout(pinta, 60); });
+  pinta();
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Aldatu modu iluna");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
       const i = window.document.createElement("i");
       i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Aldatu modu iluna");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
     }
     setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
@@ -846,7 +970,8 @@ ul.task-list li input[type="checkbox"] {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -855,8 +980,69 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -870,6 +1056,7 @@ ul.task-list li input[type="checkbox"] {
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -1032,44 +1219,54 @@ ul.task-list li input[type="checkbox"] {
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -1168,7 +1365,10 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Korritu daitekeen kodea","output":"Korritu daitekeen irteera"};
+  </script>
+<nav class="page-navigation" aria-label="Orrialdea">
   <div class="nav-page nav-page-previous">
       <a href="../chapters-web/gaia-33.html" class="pagination-link" aria-label="33. gaia · Gizarte-kontratua">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">33. gaia · Gizarte-kontratua</span></span>
